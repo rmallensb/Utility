@@ -1,1 +1,0 @@
-/Users/Ryan/.bash_profile
