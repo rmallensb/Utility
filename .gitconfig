@@ -1,7 +1,14 @@
 # This is Git's per-user configuration file.
 [user]
-        name  = Ryan Allen
+	name = Ryan Allen
 	email = rmallensb@gmail.com
 [alias]
         co = checkout
         st = status
+        b  = branch
+        d  = branch -d
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

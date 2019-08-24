@@ -1,10 +1,9 @@
 syntax on se title
 
 set number          "show line numbers
-set mouse=a         "Allows for mouse use (no longer works for me...)
 
-set shiftwidth=2
-set softtabstop=2   "number of spaces in tab when editing
+set shiftwidth=4
+set softtabstop=4   "number of spaces in tab when editing
 set expandtab       "convert tabs to spaces
 
 set autoindent      "auto indents on newline
@@ -15,3 +14,7 @@ set formatoptions+=r "auto complete comments
 
 set incsearch       "sets increment search
 set hlsearch        "highlight matches
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
