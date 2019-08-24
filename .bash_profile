@@ -2,20 +2,22 @@
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # Setting PATH for Python 2.7
-# The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 export PATH
 
 # Setting PATH for Python 3.6
-# The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 export PATH
+
+# Key repeat
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # Use the \[ escape to begin a sequence of non-printing characters,
-# and the \] escape to singal the end of such a sequence.
+# and the \] escape to signal the end of such a sequence.
 # 
 # Color Definitions:
 
@@ -48,19 +50,23 @@ parse_git_dirty() {
 }
 
 parse_git_branch() {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/(\1$(parse_git_dirty))/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/.\1$(parse_git_dirty)/"
 }
 
-Outer_Color=${BWhite}
-PS1="${Outer_Color}[\\u ${BGreen}\\W${BRed}\$(parse_git_branch)${Outer_Color}]\$${Color_Off} "
+Outer_Color=${BPurple}
+#PS1="${Outer_Color}[\\u ${BGreen}\\W${BRed}\$(parse_git_branch)${Outer_Color}]\$${Color_Off} "
+PS1="${Outer_Color}r ${BBlue}\\W${BGreen}\$(parse_git_branch)${Outer_Color}${Color_Off} "
 
 TERM=cygwin
 export PS1
 export TERM
 
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+# /usr/local/etc/bash-completion.d/ is a directory for storing
+# new completion commands
+
+# Add git and Homebrew autocompletion
+source /usr/local/etc/bash_completion.d/git-completion.bash
+source /usr/local/etc/bash_completion.d/brew
 
 # Call from a local repo to open the repo in browser
 function github() {
@@ -83,10 +89,15 @@ function github() {
 alias reload="source ~/.bash_profile && source ~/.bashrc"
 alias ls='ls -GFh'
 alias ll='ls -l'
-alias la='ls -la'
+alias la='ls -lA'
 
-alias ip='cd ~/interview_prep'
+alias per='cd ~/Personal'
 
-alias csil='. ~/c $1'
+alias customenv='. ~/Scripts/customenv.sh'
 
 [ -f ~/.bashrc ] && source ~/.bashrc
+
+#export PATH="$HOME/.rbenv/bin:$PATH"
+#eval "$(rbenv init -)"
+
+eval ~/Scripts/agent.sh
